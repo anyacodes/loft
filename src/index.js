@@ -19,7 +19,7 @@
 function isAllTrue(array, fn) {
     let result = [];
 
-    if (!Array.isArray(array)) {
+    if (!(array instanceof Array)) {
         throw new Error('empty array');
     } else if (array.length == 0) {
         throw new Error('empty array');
@@ -56,7 +56,7 @@ function isAllTrue(array, fn) {
 function isSomeTrue(array, fn) {
     let result = [];
 
-    if (!Array.isArray(array)) {
+    if (!(array instanceof Array)) {
         throw new Error('empty array');
     } else if (array.length == 0) {
         throw new Error('empty array');
