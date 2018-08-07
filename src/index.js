@@ -106,11 +106,9 @@ function returnArgumentsArray() {
 function bindFunction(fn) {
     var args = [].slice.call(arguments, 1);
 
-    var result = function () {
-        fn.apply(null, args);
+    return () => {
+        return fn.apply(null, args);
     };
-
-    return result;
 }
 
 export {
