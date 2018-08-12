@@ -54,20 +54,25 @@ function createDiv() {
 function addListeners(target) {
 
     target.addEventListener('dragstart', e => {
+        e.preventDefault();
+    });
 
-    } );
     target.addEventListener('dragover', e => {
         e.preventDefault();
         target.classList.add('active');
         e.dataTransfer.dropEffect = 'move';
-    } );
+    });
 
     target.addEventListener('dragleave', e => {
+        e.preventDefault();
         target.classList.remove('active');
-    } );
+    });
+
     target.addEventListener('dragdrop', e => {
+        e.preventDefault();
         target.classList.remove('active');
-    } );
+    });
+
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
