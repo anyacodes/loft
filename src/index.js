@@ -86,10 +86,12 @@ function delegate(target, fn) {
    кликов для указанного элемента, который вызовется только один раз и затем удалится
  */
 function once(target, fn) {
-    target.addEventListener('click', function() {
+    var handler = () => {
         fn();
+        target.removeEventListener('click', handler);
+    };
 
-    }, { once: true })
+    target.addEventListener('click', handler);
 }
 
 export {
