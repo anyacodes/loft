@@ -27,6 +27,20 @@ const homeworkContainer = document.querySelector('#homework-container');
    homeworkContainer.appendChild(newDiv);
  */
 function createDiv() {
+    function getRandom() {
+        return Math.random() * Math.random() * 5;
+    }
+    var mydiv = document.createElement('div');
+
+    mydiv.style.width = `${getRandom()}px`;
+    mydiv.style.height = `${getRandom()}px`;
+    mydiv.style.top = `${getRandom()}px`;
+    mydiv.style.left = `${getRandom()}px`;
+    mydiv.style.backgroundColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+
+    mydiv.classList.add('draggable-div');
+
+    return mydiv;
 }
 
 /*
@@ -38,6 +52,22 @@ function createDiv() {
    addListeners(newDiv);
  */
 function addListeners(target) {
+
+    target.addEventListener('dragstart', e => {
+
+    } );
+    target.addEventListener('dragover', e => {
+        e.preventDefault();
+        target.classList.add('active');
+        e.dataTransfer.dropEffect = 'move';
+    } );
+
+    target.addEventListener('dragleave', e => {
+        target.classList.remove('active');
+    } );
+    target.addEventListener('dragdrop', e => {
+        target.classList.remove('active');
+    } );
 }
 
 let addDivButton = homeworkContainer.querySelector('#addDiv');
