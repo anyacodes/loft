@@ -9,7 +9,7 @@
 
 /*
  homeworkContainer - это контейнер для всех ваших домашних заданий
- Если вы создаете новые html-элементы и добавляете их на страницу, то дабавляйте их только в этот контейнер
+ Если вы создаете новые html-элементы и добавляете их на страницу, то добавляйте их только в этот контейнер
 
  Пример:
    const newDiv = document.createElement('div');
@@ -28,7 +28,7 @@ const homeworkContainer = document.querySelector('#homework-container');
  */
 function createDiv() {
     function getRandom() {
-        return Math.random() * Math.random() * 5;
+        return Math.random() * Math.random() * 100;
     }
     var mydiv = document.createElement('div');
 
@@ -52,25 +52,33 @@ function createDiv() {
    addListeners(newDiv);
  */
 function addListeners(target) {
+    var dropX = 0;
+    var dropY = 0;
 
     target.addEventListener('dragstart', e => {
+        let targetDiv;
+
+        if (e.target.classList.contains('draggable-div')) {
+            targetDiv = e.target;
+        } else {
+            return;
+        }
+        targetDiv.setAttribute('dragged', '');
+        dropX = e.clientX - targetDiv.getBoundingClientRect().left;
+        dropY = e.clientY - targetDiv.getBoundingClientRect().top;
+        e.dataTransfer.setData(dropX, `${dropX}`);
+        e.dataTransfer.setData(dropY, `${dropY}`);
+    });
+
+    document.addEventListener('dragover', e => {
         e.preventDefault();
     });
 
-    target.addEventListener('dragover', e => {
-        e.preventDefault();
-        target.classList.add('active');
-        e.dataTransfer.dropEffect = 'move';
-    });
-
-    target.addEventListener('dragleave', e => {
-        e.preventDefault();
-        target.classList.remove('active');
-    });
-
-    target.addEventListener('dragdrop', e => {
-        e.preventDefault();
-        target.classList.remove('active');
+    document.addEventListener('drop', e => {
+        var targetDiv = document.querySelector('[dragged]');
+        targetDiv.removeAttribute('dragged');
+        targetDiv.style.left = `${e.clientX - e.dataTransfer.getData('dropY')}px`;
+        targetDiv.style.top = `${e.clientY - e.dataTransfer.getData('dropX')}px`;
     });
 
 }
