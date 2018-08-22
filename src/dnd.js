@@ -30,6 +30,7 @@ function createDiv() {
     function getRandom() {
         return Math.random() * Math.random() * 100;
     }
+
     var mydiv = document.createElement('div');
 
     mydiv.style.width = `${getRandom()}px`;
@@ -37,9 +38,10 @@ function createDiv() {
     mydiv.style.top = `${getRandom()}px`;
     mydiv.style.left = `${getRandom()}px`;
     mydiv.style.backgroundColor = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
+    mydiv.style.position = 'absolute';
 
+    mydiv.setAttribute('draggable', 'true');
     mydiv.classList.add('draggable-div');
-
     return mydiv;
 }
 
@@ -56,16 +58,9 @@ function addListeners(target) {
     var dropY = 0;
 
     target.addEventListener('dragstart', e => {
-        let targetDiv;
-
-        if (e.target.classList.contains('draggable-div')) {
-            targetDiv = e.target;
-        } else {
-            return;
-        }
-        targetDiv.setAttribute('dragged', '');
-        dropX = e.clientX - targetDiv.getBoundingClientRect().left;
-        dropY = e.clientY - targetDiv.getBoundingClientRect().top;
+        target.setAttribute('dragged', '');
+        dropX = e.clientX - mydiv.getBoundingClientRect().left;
+        dropY = e.clientY - mydiv.getBoundingClientRect().top;
         e.dataTransfer.setData(dropX, `${dropX}`);
         e.dataTransfer.setData(dropY, `${dropY}`);
     });
@@ -76,9 +71,9 @@ function addListeners(target) {
 
     document.addEventListener('drop', e => {
         var targetDiv = document.querySelector('[dragged]');
+        targetDiv.style.left = `${e.clientX - e.dataTransfer.getData('dropX')}px`;
+        targetDiv.style.top = `${e.clientY - e.dataTransfer.getData('dropY')}px`;
         targetDiv.removeAttribute('dragged');
-        targetDiv.style.left = `${e.clientX - e.dataTransfer.getData('dropY')}px`;
-        targetDiv.style.top = `${e.clientY - e.dataTransfer.getData('dropX')}px`;
     });
 
 }
