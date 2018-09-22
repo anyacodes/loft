@@ -67,30 +67,27 @@ const filterBlock = homeworkContainer.querySelector('#filter-block');
 const filterInput = homeworkContainer.querySelector('#filter-input');
 /* Блок с результатами поиска */
 const filterResult = homeworkContainer.querySelector('#filter-result');
-let townsPromise;
-let cities = [];
 
 loadTowns()
     .then(sortTowns => {
         filterBlock.style.display = 'block';
         loadingBlock.style.display = 'none';
 
-        filterInput.addEventListener('keyup', function (event) {
+        filterInput.addEventListener('keyup', function () {
             // это обработчик нажатия кливиш в текстовом поле
-            let chunk = event.target.valueOf();
+            let chunk = filterInput.value;
 
             filterResult.innerHTML = '';
-            for (let index = 0; index < sortTowns.length; index++) {
-                const element = sortTowns[index].name;
 
-                if (isMatching(element, chunk)) {
+            for (let index = 0; index < sortTowns.length; index++) {
+                let town = sortTowns[index].name;
+
+                if (isMatching(town, chunk)) {
                     let div = document.createElement('div');
 
-                    div.textContent = element;
+                    div.textContent = town;
                     filterResult.appendChild(div);
-
                 }
-
             }
 
             if (!chunk) {
